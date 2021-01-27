@@ -2,7 +2,24 @@ namespace SpriteKind {
     export const Trident = SpriteKind.create()
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    mySprite.setPosition(0, 0)
+    mySprite4 = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Player)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Trident, function (sprite, otherSprite) {
     Life += -1
@@ -13,9 +30,9 @@ sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Projectile, function (sprite, oth
         Random_number += randint(40, 100)
     }
 })
+let mySprite4: Sprite = null
 let Random_number = 0
-let mySprite: Sprite = null
-mySprite = sprites.create(img`
+let mySprite = sprites.create(img`
     . . 9 9 . 9 9 . 9 9 . . . . . . 
     . . . 9 . . 9 . . 9 . . . . . . 
     . 9 9 9 9 9 9 9 9 9 . . . . . . 
@@ -198,7 +215,7 @@ mySprite.y += 0
 mySprite2.setPosition(145, Random_number)
 Random_number = randint(21, 100)
 let Hits = 0
-let mySprite4 = sprites.create(img`
+mySprite4 = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
