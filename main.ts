@@ -2,7 +2,16 @@ namespace SpriteKind {
     export const Trident = SpriteKind.create()
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    mySprite4 = sprites.create(img`
+    projectile = sprites.createProjectileFromSprite(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . 9 5 5 5 5 . . . . . . . 
+        . . . . . 9 5 5 9 . . . . . . . 
+        . . . . . . 9 5 5 . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -10,29 +19,23 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, SpriteKind.Player)
+        `, mySprite, 100, 0)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Trident, function (sprite, otherSprite) {
-    Life += -1
+    info.changeLifeBy(-1)
+    projectile.destroy(effects.spray, 200)
 })
-sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Projectile, function (sprite, otherSprite) {
-    Enemy_Life += -1
-    if (true) {
-        Random_number += randint(40, 100)
-    }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
+    info.player2.changeLifeBy(-1)
+    projectile.destroy()
 })
-let mySprite4: Sprite = null
-let Random_number = 0
-let mySprite = sprites.create(img`
+info.onLifeZero(function () {
+    music.powerDown.playUntilDone()
+    mySprite.destroy()
+})
+let projectile: Sprite = null
+let mySprite: Sprite = null
+mySprite = sprites.create(img`
     . . 9 9 . 9 9 . 9 9 . . . . . . 
     . . . 9 . . 9 . . 9 . . . . . . 
     . 9 9 9 9 9 9 9 9 9 . . . . . . 
@@ -68,26 +71,9 @@ let mySprite2 = sprites.create(img`
     . . . . . . 3 3 2 2 2 2 3 3 . . 
     . . . . . . 3 3 3 2 2 3 3 3 . . 
     . . . . . . 4 2 4 . . 4 2 4 . . 
-    `, SpriteKind.Enemy)
-mySprite2.setPosition(145, 64)
-let mySprite3 = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . 2 f . . . . . . . . . 
-    . . . . 2 f f f f . . . . . . . 
-    . . . . . 2 f . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, SpriteKind.Trident)
+    `, SpriteKind.Player)
+let Random_number = randint(-60, 60)
+mySprite2.setPosition(145, Random_number)
 controller.moveSprite(mySprite, 30, 30)
 scene.setBackgroundImage(img`
     5555555555555566666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
@@ -211,31 +197,29 @@ scene.setBackgroundImage(img`
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
     `)
-mySprite.y += 0
-mySprite2.setPosition(145, Random_number)
-Random_number = randint(21, 100)
 let Hits = 0
-mySprite4 = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . 9 5 5 5 5 . . . . . . . . . 
-    . . . 9 5 5 9 . . . . . . . . . 
-    . . . . 9 5 5 . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, SpriteKind.Projectile)
-let Life = 4
-let Enemy_Life = 15
-if (Life == 0) {
-    music.powerDown.playUntilDone()
-    mySprite.destroy()
-}
+info.setLife(4)
+info.player2.setLife(10)
+game.onUpdateInterval(2000, function () {
+    Random_number += randint(-80, 60)
+})
+game.onUpdateInterval(500, function () {
+    projectile = sprites.createProjectileFromSprite(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . 4 2 f . . . . . . . 
+        . . . . . 4 2 f f f f . . . . . 
+        . . . . . . 4 2 f . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, mySprite2, -100, 0)
+})
