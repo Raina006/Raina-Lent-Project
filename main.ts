@@ -23,9 +23,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Trident, function (sprite, otherSprite) {
     info.changeLifeBy(-1)
-    projectile.destroy(effects.spray, 200)
+    Trident1.destroy(effects.spray, 200)
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
+sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Projectile, function (sprite, otherSprite) {
     info.player2.changeLifeBy(-1)
     projectile.destroy()
 })
@@ -33,6 +33,7 @@ info.onLifeZero(function () {
     music.powerDown.playUntilDone()
     mySprite.destroy()
 })
+let Trident1: Sprite = null
 let projectile: Sprite = null
 let mySprite: Sprite = null
 mySprite = sprites.create(img`
@@ -71,8 +72,10 @@ let mySprite2 = sprites.create(img`
     . . . . . . 3 3 2 2 2 2 3 3 . . 
     . . . . . . 3 3 3 2 2 3 3 3 . . 
     . . . . . . 4 2 4 . . 4 2 4 . . 
-    `, SpriteKind.Player)
+    `, SpriteKind.Enemy)
 let Random_number = randint(-60, 60)
+mySprite.setStayInScreen(true)
+mySprite2.setStayInScreen(true)
 mySprite2.setPosition(145, Random_number)
 controller.moveSprite(mySprite, 30, 30)
 scene.setBackgroundImage(img`
@@ -204,7 +207,7 @@ game.onUpdateInterval(2000, function () {
     Random_number += randint(-80, 60)
 })
 game.onUpdateInterval(500, function () {
-    projectile = sprites.createProjectileFromSprite(img`
+    Trident1 = sprites.createProjectileFromSprite(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
